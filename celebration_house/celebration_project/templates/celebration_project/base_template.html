@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Праздник</title>
+        {% block styles %}
+        {% endblock %}
+        <link rel="stylesheet" href="{% static 'celebration_project/css/style.css' %}" />
+      <link rel="icon" href="{% static 'celevration_project/images/smile.png' %}" type="image/x-icon">
+    </head>
+    <body>
+        <header class="header">
+            <div class="container">
+                <a href="{% url 'index' %}" style="text-decoration: none; color: black;">
+                    <div class="logo">Празд<span style="background: white">ник</span></div>
+                </a>
+
+                <!-- Основное меню для десктопа -->
+                <nav class="nav">
+                    <a href="url 'services' ">Акции</a>
+                    <a href=" url 'products' ">Поиск</a>
+                    <a href="#contacts">Управление бронированием</a>
+                </nav>
+                <div class="account-links">
+                    {% if request.user.is_authenticated %}
+                        <a href=" url 'profile' " class="btn">Профиль</a>
+                    {% else %}
+                        <a href=" url 'authorization' " class="btn">Вход</a>
+                    {% endif %}
+                </div>
+
+                <!-- Кнопка мобильного меню -->
+                <button class="menu-toggle" aria-label="Меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <!-- Мобильное меню -->
+            <div class="mobile-menu">
+                <nav class="nav">
+                    <a href="url 'services' ">Акции</a>
+                    <a href=" url 'products' ">Поиск</a>
+                    <a href="#contacts">Управление бронированием</a>
+                </nav>
+                <div class="account-links">
+                    {% if request.user.is_authenticated %}
+                        <a href=" url 'profile' " class="btn">Профиль</a>
+                    {% else %}
+                        <a href=" url 'authorization' " class="btn">Вход</a>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+      {% block main %} {% endblock %}
+
+        <footer>
+            <div class="container">
+                <h2>Контакты</h2>
+                <div class="contact-info">
+                    <a name="contacts"></a>
+                    <a href="{% url 'index' %}" style="text-decoration: none; color: white;">
+                        <div class="logo">Празд<span style="background: white">ник</span></div>
+                    </a>
+                    <p>8 (800) 111-20-20</p>
+                    <nav class="nav">
+                        <a href="url 'services' ">Акции</a>
+                        <a href=" url 'products' ">Поиск</a>
+                        <a href="#contacts">Управление бронированием</a>
+                    </nav>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

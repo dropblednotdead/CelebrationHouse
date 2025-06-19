@@ -1,0 +1,19 @@
+{% extends 'celebration_project/base_template.html' %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block main %}
+<section class="booking container">
+    <h2>Бронирование</h2>
+
+<div class="search-params">
+    <h3>Параметры поиска:</h3>
+    <p><strong>Регион:</strong> {{ search_params.region }}</p>
+    <p><strong>Количество человек:</strong> {{ search_params.people }}</p>
+    <p><strong>Дата:</strong> {{ search_params.date }}</p>
+</div><br>
+</section>
+{% endblock %}

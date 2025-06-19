@@ -1,0 +1,97 @@
+{% extends 'celebration_project/base_template.html' %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block main %}
+<section class="hero">
+        <div class="container hero-content">
+          <div class="hero-text">
+            <h1>Праздник в каждый дом</h1>
+            <p>Предоставляем услуги организации детских праздников на нашей территории в очень интересных локациях.</p>
+            <a href="" class="btn">Выбрать локацию</a>
+          </div>
+          <div class="hero-img">
+            <img src="{% static 'celebration_project/images/13.jpg' %} " alt="">
+          </div>
+        </div>
+      </section>
+<section>
+<div class="booking-steps container">
+  <h2> Алгоритм бронирования </h2>
+  <div class="step" data-step="1">
+    <div class="step-icon">📅</div>
+    <h3>1. Выбрать дату праздника →</h3>
+    <p>Укажите число участников и желаемый день.</p>
+  </div>
+    <div class="step" data-step="2">
+    <div class="step-icon">🕺</div>
+    <h3>2. Выбрать количество участников →</h3>
+    <p>Подберите место для праздника.</p>
+  </div>
+  <div class="step" data-step="3">
+    <div class="step-icon">🏰</div>
+    <h3>3. Выбрать желаемую локацию для праздника →</h3>
+    <p>Подберите место для праздника.</p>
+  </div>
+  <!-- Остальные шаги -->
+  <div class="step" data-step="4">
+    <div class="step-icon">🏡</div>
+    <h3>4. Зарезервировать конкретную зону →</h3>
+    <p>Подберите место для праздника.</p>
+  </div>
+  <div class="step" data-step="5">
+    <div class="step-icon">🎎</div>
+    <h3>5. Определить перечень дополнительных услуг →</h3>
+    <p>Подберите место для праздника.</p>
+  </div>
+  <div class="step" data-step="6">
+    <div class="step-icon">📃</div>
+    <h3>6. Оформить бронирование</h3>
+    <p>Подберите место для праздника.</p>
+  </div>
+</div>
+</section>
+<section>
+  <div class="goal container">
+    <p>Главная цель компании – сделать праздник незабываемым для детей и их родителей.</p>
+  </div>
+  <div class="motto container">
+    <p>Девиз компании «Праздник в каждый дом»: Подарим волшебство для Ваших детей!
+  </p>
+  </div>
+    <div class="reviews container">
+        <h2>Отзывы</h2>
+        <div class="review-item">
+            <p class="rev">Спасибо большое! Дети в бурных эмоция, аниматор супер, даже взрослые участвовали, как это было все классно, энергично, здорово!
+Успехов вам больших!</p>
+            <p><strong>- Светлана</strong></p>
+        </div>
+        <div class="review-item">
+            <p class="rev">ДР ребенка 3 года, аниматоры молодцы, все очень хорошо подготовили!
+Крош отработал на 5, все дети в восторге! Шоу мыльных пузырей с погружением чудесное и волшебное! Детям хотелось немного больше контакта с пузырями!
+Ребят, только на счет подарка в конце шоу оговаривайте с родителями! Иногда шоколад маленьким детям дарить не стоит !</p>
+            <p><strong>- Марина</strong></p>
+        </div>
+        <div class="review-item">
+            <p class="rev">Всё очень понравилось.
+Игры хорошие, аниматоры отличные, костюмы классные! Дети были восторге!!!</p>
+            <p><strong>- Алена</strong></p>
+        </div>
+        <div class="review-item">
+            <p class="rev">Уже не первый раз заказываем праздник у вас, как всегда вы огромные специалисты и мастера своего дела!
+Отлично всё: от приёма заказа, до финала праздника. Удачи и до новых встреч!!</p>
+            <p><strong>- Наталия</strong></p>
+        </div>
+    </div>
+</section>
+<section>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </form>
+</section>
+{% endblock %}

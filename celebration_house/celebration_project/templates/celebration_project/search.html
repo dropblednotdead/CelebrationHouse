@@ -1,0 +1,39 @@
+{% extends 'celebration_project/base_template.html' %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block main %}
+<section class="locations container">
+    <h2>Результаты поиска</h2>
+
+{% if search_params %}
+<div class="search-params">
+    <h3>Параметры поиска:</h3>
+    <p><strong>Регион:</strong> {{ search_params.region }}</p>
+    <p><strong>Количество человек:</strong> {{ search_params.people }}</p>
+    <p><strong>Дата:</strong> {{ search_params.date }}</p>
+</div><br>
+{% endif %}
+
+{% if locations %}
+<h3>Найденные локации:</h3>
+    {% for location in locations %}
+    <div class="locations-list">
+        <img src="{{ location.photo.url }}" alt="">
+        <h3>{{ location.name }}</h3>
+        <p>Адрес: {{location.region}}, г. {{location.city}}, ул. {{ location.street }}, д. {{ location.building }}{% if location.index %}{{ location.index }}{% endif %}</p>
+        <p>Максимальное количество человек: {{ location.max_people }}</p>
+        <h5>Доступных зон: {{ location.zones_set.all.count }}</h5>
+    </div>
+    <a href="{% url 'seat' %}?location={{location.pk}}" class="btn">Выбрать зону</a>
+    {% endfor %}
+{% else %}
+<p>По вашему запросу ничего не найдено.</p>
+{% endif %}
+
+<a href="{% url 'index' %}" class="btn btn-primary">Новый поиск</a>
+</section>
+{% endblock %}
