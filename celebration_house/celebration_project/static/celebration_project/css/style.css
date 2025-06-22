@@ -82,7 +82,7 @@ body {
 
 .nav a:hover,
 .account-links a:hover {
-    color: #500a0d;
+    color: #ff0065;
 }
 
 .account-links .btn {
@@ -164,7 +164,7 @@ body {
   text-align: center;
   border-radius: 15px;
   overflow: hidden;
-  background: black;
+  background: #6933a2;;
 }
 
 .hero-img img {
@@ -300,6 +300,270 @@ h2 {
 
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.find {
+    border-right: 3px solid #6933a2;
+    border-left: 3px solid #6933a2;
+    border-radius: 10px;
+    margin-bottom: 10%;
+    margin-top: 5%;
+}
+.find label {
+    font-size: 2em;
+    color: #ff0065;
+    font-weight: 800;
+}
+
+.find .btn {
+    width: 500px;
+}
+
+.form-section {
+    margin-top: 5%;
+}
+.find input, select {
+    flex: 1;
+    min-width: 500px;
+    border-radius: 9px;
+    border: 1.8px solid #6933a2;
+    color: #777;
+    font-size: 22px;
+    font-weight: 400;
+    padding: 10px 15px;
+}
+.sales {
+    display: flex;
+    flex-direction: column;
+}
+.sale-text {
+    padding: 5%;
+    font-size: 1.2em;
+}
+h3 {
+    font-size: 1.5em;
+    color: #ff0065;
+
+}
+.sale {
+    width: 100%;
+}
+.sale-img {
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-top: 3px solid #6933a2;
+    border-bottom: 3px solid #6933a2;
+    padding: 5%;
+}
+.sale-img img {
+    width: 70%;
+    border-radius: 15px;
+}
+li {
+  list-style-type: none;
+}
+.locations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.search-params {
+    width: 100%;
+    font-size: 1.5vmax;
+}
+strong {
+    color: #ff0065;
+}
+.locations-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+}
+.location {
+    width: 70%;
+    margin-bottom: 5%;
+}
+.locations .btn {
+    width: 70%;
+    text-align: center;
+}
+.btn-find {
+    background: #ff0065;
+    color: white;
+    margin: 5% 0;
+    padding: 8px 16px;
+    border: 3px solid #ff0065;
+    border-radius: 10px;
+
+    &:hover {
+    background: #6933a2;
+    border: 3px solid #6933a2;
+    color: white;
+}
+}
+.locations .search-params h3 {
+    font-size: 2em;
+}
+.locations h3 {
+    font-size: 3em;
+}
+.location img {
+    width: 100%;
+}
+.location h4 {
+    font-size: 2vmax;
+    color: #6933a2;
+}
+.location p {
+    font-size: 1.5vmax;
+}
+.location h5 {
+    font-size: 1.5vmax;
+    color: #6933a2;
+}
+.seat-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.zone {
+    width: 100%;
+    margin-bottom: 5%;
+}
+.zone-images {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5%;
+}
+.zone-images img {
+    width: 47.5%;
+    border-radius: 15px;
+}
+.zone h3 {
+    font-size: 2.5em;
+}
+.zone p {
+    font-size: 1.5em;
+}
+.zone a {
+    margin-top: 5%;
+    width: 100%;
+    text-align: center;
+}
+.km-input {
+    border-radius: 9px;
+    border: 1.8px solid #6933a2;
+    padding: 10px 15px;
+    font-size: 22px;
+}
+.booking-wrapper h4 {
+    font-size: 2em;
+    color: #6933a2;
+}
+.booking-wrapper button {
+    margin-bottom: 5%;
+    width: 42.5%;
+}
+.form-check label {
+    font-size: 1.5em;
+}
+.form-check input[type="checkbox"] {
+    accent-color: #6933a2;
+    transform: scale(1.5);
+}
+.field input, select, textarea {
+    flex: 1;
+    min-width: 500px;
+    border-radius: 9px;
+    border: 1.8px solid #6933a2;
+    color: #777;
+    font-size: 22px;
+    font-weight: 400;
+    padding: 10px 15px;
+}
+.auth-form input, select, textarea {
+    flex: 1;
+    min-width: 500px;
+    border-radius: 9px;
+    border: 1.8px solid #6933a2;
+    color: #777;
+    font-size: 22px;
+    font-weight: 400;
+    padding: 10px 15px;
+}
+.auth-form .btn {
+    margin-top: 5%;
+}
+.bookings {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    border-top: 3px solid #6933a2;
+    border-bottom: 3px solid #6933a2;
+    border-radius: 10px;
+    padding: 3%;
+}
+.bookings h3 {
+    width: 100%;
+    font-size: 2.5em;
+}
+.profile-card-body {
+    width: 100%;
+    font-size: 1.5em;
+    border-top: 3px solid #6933a2;
+    border-bottom: 3px solid #6933a2;
+    border-radius: 10px;
+    padding: 3%;
+    margin-bottom: 5%;
+}
+.card {
+    width: 47.5%;
+    margin-top: 2%;
+}
+.card p {
+    font-size: 1.5em;
+}
+.card-images {
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    border-radius: 9px;
+    margin-bottom: 5%;
+}
+.card-images img {
+    width: 100%;
+}
+.card .btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 5%;
+}
+.auth-form label {
+    font-size: 2em;
+    color: #ff0065;
+    font-weight: 800;
+}
+.auth-form .btn {
+    width: 42.5%;
+}
+.auth-form {
+    margin-bottom: 5%;
+}
 @media (max-width: 992px) {
     /* Скрываем десктопное меню на мобильных */
     .nav:not(.mobile-menu .nav),
@@ -356,7 +620,7 @@ h2 {
     .menu-toggle span {
         width: 100%;
         height: 3px;
-        background: #7B1216;
+        background: #6933a2;
         transition: all 0.3s linear;
         position: relative;
         transform-origin: center;
@@ -378,7 +642,7 @@ h2 {
     /* Мобильное меню */
     .mobile-menu {
         position: fixed;
-        top: 80px;
+        top: 90px;
         left: 0;
         background: white;
         padding: 20px 0;
@@ -421,12 +685,35 @@ h2 {
       .hero-text h1 {
         font-size: 32px;
       }
-
+    .hero-img {
+        display: none;
+    }
+    .booking-steps {
+        flex-direction: column;
+        padding: 5%;
+    }
+    .step {
+        width: 100%;
+    }
     .logo {
         font-size: 32px;
     }
-
+    .find input, select {
+        min-width: 400px;
+    }
+    .auth-form input, select {
+        min-width: 450px;
+    }
+    .find .btn {
+        width: 90%;
+    }
+    .card {
+        width: 100%;
+    }
     .mobile-menu {
         top: 70px;
+    }
+    .auth-form .btn {
+        width: 100%;
     }
 }

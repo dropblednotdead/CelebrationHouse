@@ -1,0 +1,30 @@
+{% extends 'celebration_project/base_template.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'tire_fix/css/auth.css' %}" />
+    <link rel="stylesheet" href="{% static 'tire_fix/css/reg.css' %}" />
+{% endblock %}
+
+{% block main %}
+    <main class="container">
+    <section id="register" class="auth-section">
+      <div class="auth-container">
+        <h2>Регистрация</h2>
+
+        <form class="auth-form" method="post">
+          {% csrf_token %}
+          {% for i in form %}
+          <div class="form-group">
+            <label for="{{ i.id_for_label }}">{{ i.label }}</label><br>
+            {{ i }}
+            <span class="error-message"> {{ i.errors }}</span>
+          </div>
+          {% endfor %}
+
+          <button type="submit" class="btn">Зарегистрироваться</button>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}

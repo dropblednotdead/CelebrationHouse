@@ -11,7 +11,7 @@
           <div class="hero-text">
             <h1>Праздник в каждый дом</h1>
             <p>Предоставляем услуги организации детских праздников на нашей территории в очень интересных локациях.</p>
-            <a href="" class="btn">Выбрать локацию</a>
+            <a href="#form" class="btn">Выбрать локацию</a>
           </div>
           <div class="hero-img">
             <img src="{% static 'celebration_project/images/13.jpg' %} " alt="">
@@ -87,11 +87,36 @@
         </div>
     </div>
 </section>
-<section>
-    <form method="post">
+<a name="form"></a>
+<section class="container form-section">
+    <h2>Поиск</h2>
+    <form method="post" class="find">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for i in form %}
+              <div class="">
+                <label for="{{ i.id_for_label }}">{{ i.label}}</label><br><br>
+                {{ i }}
+              </div>
+        {% endfor %}
+        <div style="color: red;">{{ form.errors }}</div>
         <button type="submit" class="btn btn-primary">Поиск</button>
     </form>
+</section>
+<a name="sales"></a>
+<section>
+    <div class="sales container">
+        <h2>Акции</h2>
+        {% for sale in sales %}
+            <div class="sale">
+                <div class="sale-img">
+                    <img src="{{ sale.image.url }}" alt="">
+                </div>
+                <div class="sale-text">
+                    <h3>{{ sale.name }}</h3>
+                    <div>{{ sale.description|safe }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </section>
 {% endblock %}

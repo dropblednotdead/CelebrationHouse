@@ -10,10 +10,115 @@
     <h2>Бронирование</h2>
 
 <div class="search-params">
-    <h3>Параметры поиска:</h3>
     <p><strong>Регион:</strong> {{ search_params.region }}</p>
+    <p><strong>Локация:</strong> {{zone.location.name}}, г. {{zone.location.city}}, ул. {{ zone.location.street }}, д. {{ zone.location.building }}{% if zone.location.index %}{{ zone.location.index }}{% endif %}</p>
+    <p><strong>Зона:</strong> {{ zone }}</p>
     <p><strong>Количество человек:</strong> {{ search_params.people }}</p>
     <p><strong>Дата:</strong> {{ search_params.date }}</p>
 </div><br>
+{% if form.non_field_errors %}
+  <div class="form-errors">
+    {% for error in form.non_field_errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
+  </div>
+    <a href="{% url 'index' %}" class="btn">На главную</a>
 </section>
+{% else %}
+<div class="booking-wrapper">
+    <form method="post" class="">
+    {% csrf_token %}
+    {% for field in form %}
+    {% if field.name != "booking_services" %}
+        <div class="field">
+            {{ field }}
+        </div>
+    {% endif %}
+    {% endfor %}
+    <h4>{{ form.booking_services.label }}</h4>
+    {% for service in form.fields.booking_services.queryset %}
+      <div class="form-check">
+        <input type="checkbox"
+           class="form-check-input service-checkbox"
+           name="booking_services"
+           value="{{ service.id }}"
+           id="service_{{ service.id }}"
+           data-cost="{{ service.cost }}"
+           data-type="{{ service.price_type }}">
+        <label class="form-check-label" for="service_{{ service.id }}">
+          {{ service.name }} (+{{ service.cost }}₽)
+        </label>
+          {% if service.price_type == "taxi" %}
+      <input type="number"
+             min="0"
+             placeholder="Расстояние (км)"
+             class="km-input"
+             data-related="{{ service.id }}"
+             style="max-width: 200px; margin-top: 5px;">
+    {% endif %}
+      </div>
+    {% endfor  %}
+    <button type="submit" style="" class="btn">Забронировать</button>
+</form>
+</div>
+</section>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const basePrice = parseFloat("{{ zone.price }}");
+    const totalPriceInput = document.getElementById("total_price");
+    const checkboxes = document.querySelectorAll(".service-checkbox");
+    const peopleCount = parseInt("{{ search_params.people }}");
+    const hours = calculateHours("{{ zone.start_time }}", "{{ zone.end_time }}");
+
+    function calculateHours(start, end) {
+        const [h1, m1] = start.split(":").map(Number);
+        const [h2, m2] = end.split(":").map(Number);
+        return (h2 + m2/60) - (h1 + m1/60);
+    }
+
+    function updateTotalPrice() {
+        let total = basePrice;
+
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                const cost = parseFloat(cb.dataset.cost || 0);
+                const type = cb.dataset.type;
+                const serviceId = cb.value;
+
+                switch(type) {
+                    case 'per_person':
+                        total += cost * peopleCount;
+                        break;
+                    case 'per_day':
+                        total += cost;
+                        break;
+                    case 'per_hour':
+                        total += cost * hours;
+                        break;
+                    case 'taxi':
+                        const kmInput = document.querySelector(`.km-input[data-related="${serviceId}"]`);
+                        const km = kmInput ? parseFloat(kmInput.value || 0) : 0;
+                        total += 50 + 10 * km;
+                        break;
+                }
+            }
+        });
+
+        totalPriceInput.value = total.toFixed(2);
+    }
+
+    // Инициализация
+    updateTotalPrice();
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener("change", updateTotalPrice);
+    });
+
+    const kmInputs = document.querySelectorAll(".km-input");
+    kmInputs.forEach(input => {
+        input.addEventListener("input", updateTotalPrice);
+    });
+});
+</script>
+{% endif %}
 {% endblock %}

@@ -7,17 +7,20 @@
 
 {% block main %}
 <section class="seat container">
+    <h2>Зоны</h2>
     <div class="seat-list">
         {% for zone in zones %}
             <div class="zone">
-                <img src="{{ zone.image.url }}" alt="">
-                <img src="{{ zone.plan.url }}" alt="">
+                <div class="zone-images">
+                    <img src="{{ zone.image.url }}" alt="">
+                    <img src="{{ zone.plan.url }}" alt="">
+                </div>
                 <h3> {{ zone.name }}</h3>
                 <p>Цена: {{zone.price}}</p>
                 <p>Максимальное кол-во людей: {{zone.people}}</p>
                 <p>{{zone.description}}</p>
                 <p>{{zone.start_time}} - {{zone.end_time}}</p>
-                <a href="" class="btn">Забронировать</a>
+                <a href="{% url 'booking' %}?zone={{ zone.pk }}" class="btn">Забронировать</a>
             </div>
         {% endfor %}
     </div>

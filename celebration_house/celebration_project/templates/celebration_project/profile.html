@@ -1,0 +1,48 @@
+{% extends 'celebration_project/base_template.html' %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block main %}
+  <main class="container">
+    <section id="profile" class="profile-section">
+        <h2 class="profile-title">Управление бронированием</h2>
+        <div class="profile-card">
+            <div class="profile-card-body">
+                {% if not request.user.is_superuser %}
+                <p><strong>Фамилия:</strong> {{ request.user.last_name }}</p>
+                <p><strong>Имя:</strong> {{ request.user.first_name }}</p>
+                {% else %}
+                <p><strong>Статус:</strong> Администратор</p>
+                {% endif %}
+                <p><strong>Логин:</strong> {{ request.user.username }}</p>
+                <p><strong>Почта:</strong> {{ request.user.email }}</p>
+            </div>
+        </div>
+    </section>
+  <section class="bookings">
+      <h3>Бронирования</h3>
+    {% for booking in bookings %}
+      <div class="card">
+          <div class="card-images">
+            <img src="{{ booking.zone.image.url }}" alt="">
+            <img src="{{ zone.plan.url }}" alt="">
+          </div>
+          <p><strong>Телефон:</strong> {{ booking.phone_num }}</p>
+          <p><strong>Регион:</strong> {{ booking.zone.location.region }}</p>
+          <p><strong>Локация:</strong> {{booking.zone.location.name}}, г. {{booking.zone.location.city}}, ул. {{ booking.zone.location.street }}, д. {{ booking.zone.location.building }}{% if booking.zone.location.index %}{{ booking.zone.location.index }}{% endif %}</p>
+          <p><strong>Зона:</strong> {{ booking.zone.name }}</p>
+          <p><strong>Комментарий:</strong> {{ booking.comment }}</p>
+          <p><strong>Число людей:</strong> {{ booking.people }}</p>
+          <p><strong>Дата:</strong> {{ booking.date }}</p>
+          <p><strong>Время:</strong> {{booking.zone.start_time}} - {{booking.zone.end_time}}</p>
+          <p><strong>Итоговая цена:</strong> {{booking.total_price}}</p>
+          <p><strong>Статус:</strong> {{booking.status}}</p>
+          <a href="{% url 'profile' %}?booking={{booking.pk}}" class="btn">Отменить</a>
+      </div>
+    {% endfor %}
+  </section>
+  </main>
+{% endblock %}

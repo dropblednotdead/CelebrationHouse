@@ -1,0 +1,44 @@
+{% extends 'celebration_project/base_template.html' %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block main %}
+  <main class="container">
+    <section id="profile" class="profile-section">
+        <h2 class="profile-title">Администрирование</h2>
+        <div class="profile-card">
+            <div class="profile-card-body">
+                <p><strong>Логин:</strong> {{ request.user.username }}</p>
+                <p><strong>Почта:</strong> {{ request.user.email }}</p>
+            </div>
+        </div>
+    </section>
+  <section class="bookings">
+    {% for booking in bookings %}
+      <div class="card">
+          <p><strong>Телефон:</strong> {{ booking.phone_num }}</p>
+          <p><strong>Регион:</strong> {{ booking.zone.location.region }}</p>
+          <p><strong>Локация:</strong> {{booking.zone.location.name}}, г. {{booking.zone.location.city}}, ул. {{ booking.zone.location.street }}, д. {{ booking.zone.location.building }}{% if booking.zone.location.index %}{{ booking.zone.location.index }}{% endif %}</p>
+          <p><strong>Зона:</strong> {{ booking.zone.name }}</p>
+          <p><strong>Комментарий:</strong> {{ booking.comment }}</p>
+          <p><strong>Число людей:</strong> {{ booking.people }}</p>
+          <p><strong>Дата:</strong> {{ booking.date }}</p>
+          <p><strong>Время:</strong> {{booking.zone.start_time}} - {{booking.zone.end_time}}</p>
+          <div><strong>Дополнительные услуги:</strong>
+              {% for serv in booking.booking_serv.all %}
+              <p>{{serv.service.name}}</p>
+              {% endfor %}
+          </div>
+          <p><strong>Итоговая цена:</strong> {{booking.total_price}}</p>
+          <p><strong>Статус:</strong> {{booking.status}}</p>
+          {% if booking.status != accept %}<a href="{% url 'admin' %}?booking={{booking.pk}}&status=1" class="btn">Подтвердить</a> {% endif %}
+          {% if booking.status != no_accept %}<a href="{% url 'admin' %}?booking={{booking.pk}}&status=0" class="btn">Отклонить</a> {% endif %}
+          <a href="{% url 'admin' %}?booking={{booking.pk}}" class="btn">Удалить</a>
+      </div>
+    {% endfor %}
+  </section>
+  </main>
+{% endblock %}

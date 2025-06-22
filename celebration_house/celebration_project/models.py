@@ -2,47 +2,40 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class UserInformation(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.OneToOneField(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='user_info',
-        verbose_name='Пользователь'
-    )
-    phone_num = models.CharField(max_length=20, verbose_name='Номер телефона')
-    surname = models.CharField(
-        max_length=100,
-        verbose_name='Фамилия'
-    )
-    name = models.CharField(
-        max_length=100,
-        verbose_name='Имя'
-    )
-    patronymic = models.CharField(
-        max_length=100,
-        verbose_name='Отчество'
-    )
-
-    class Meta:
-        managed = True
-        db_table = 'user_information'
-        verbose_name = 'Информация о пользователе'
-        verbose_name_plural = 'Информация о пользователях'
-        ordering = ['id']
-
-    def __str__(self):
-        return f'{self.surname} {self.name} {self.phone_num}'
+class UnsignedIntegerField(models.IntegerField):
+    def db_type(self, connection):
+        if connection.vendor == 'mysql':
+            return 'integer UNSIGNED'
+        return super().db_type(connection)
 
 
 class Booking(models.Model):
     id = models.BigAutoField(primary_key=True)
-    second_name = models.CharField(
+    client = models.ForeignKey(
+        User,
+        models.DO_NOTHING,
+        blank=True,
+        null=True,
+        verbose_name='Клиент'
+    )
+    last_name = models.CharField(
+        max_length=50,
         verbose_name='Фамилия',
         blank=True,
         null=True
+    )
+    first_name = models.CharField(
+        max_length=50,
+        verbose_name='Имя',
+        blank=True,
+        null=True
+    )
+    patronymic = models.CharField(max_length=100, null=True, blank=True, verbose_name='Отчество')
+    phone_num = models.CharField(
+        max_length=20,
+        verbose_name='Номер телефона',
+        blank=True,
+        null=True,
     )
     zone = models.ForeignKey(
         'Zones',
@@ -55,13 +48,24 @@ class Booking(models.Model):
         verbose_name='Итоговая цена',
     )
     comment = models.TextField(verbose_name='Комментарий')
-    date = models.DateTimeField(verbose_name='Дата')
-    people = models.SmallIntegerField(verbose_name='Кол-во человек')
+    date = models.DateField(
+        verbose_name='Дата',
+        blank=True,
+        null=True
+    )
+
+    people = UnsignedIntegerField(
+        verbose_name='Кол-во человек',
+        blank=True,
+        null=True
+    )
     status = models.CharField(
         choices=[('Подтверждено', 'Подтверждено'),
-                 ('Отклонено', 'Отклонено')],
+                 ('Отклонено', 'Отклонено'),
+                 ('Ожидание', 'Ожидание')],
         max_length=50,
-        verbose_name='Статус'
+        verbose_name='Статус',
+        default='Ожидание'
     )
     booking_services = models.ManyToManyField(
         'Services',
@@ -76,12 +80,22 @@ class Booking(models.Model):
         verbose_name = 'Бронирование'
         verbose_name_plural = 'Бронирования'
         ordering = ['id', '-total_price']
+        constraints = [
+            models.UniqueConstraint(fields=['zone', 'date'], name='unique_booking_per_zone_per_date')
+        ]
 
     def __str__(self):
-        return f'{self.client} {self.date}'
+        return f'{self.first_name} {self.last_name} {self.date}'
 
 
 class Services(models.Model):
+    PRICE_TYPES = [
+        ('per_person', 'Р/чел'),
+        ('per_day', 'Р/сутки'),
+        ('per_hour', 'Р/час'),
+        ('taxi', 'Такси (50р + 10р/км)'),
+    ]
+
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255, verbose_name='Название')
     description = models.TextField(
@@ -93,6 +107,12 @@ class Services(models.Model):
         max_digits=7,
         decimal_places=2,
         verbose_name='Стоимость'
+    )
+    price_type = models.CharField(
+        max_length=20,
+        choices=PRICE_TYPES,
+        default='per_day',
+        verbose_name='Тип расчета'
     )
 
     class Meta:
@@ -110,8 +130,9 @@ class BookingServices(models.Model):
     id = models.BigAutoField(primary_key=True)
     booking = models.ForeignKey(
         'Booking',
-        models.DO_NOTHING,
-        verbose_name='Аренда'
+        on_delete=models.CASCADE,
+        verbose_name='Аренда',
+        related_name='booking_serv'
     )
     service = models.ForeignKey(
         'Services',
@@ -150,11 +171,12 @@ class Zones(models.Model):
         decimal_places=2,
         verbose_name='Цена',
     )
-    people = models.SmallIntegerField(verbose_name='Кол-во человек')
+    people = UnsignedIntegerField(verbose_name='Кол-во человек')
     location = models.ForeignKey(
         'Locations',
         models.DO_NOTHING,
-        verbose_name='Локация'
+        verbose_name='Локация',
+        related_name='zone'
     )
     description = models.TextField(
         blank=True,
@@ -204,11 +226,12 @@ class Locations(models.Model):
         blank=True,
         null=True,
         verbose_name='Индекс')
-    max_people = models.SmallIntegerField(verbose_name='Максимальное кол-во человек')
+    max_people = UnsignedIntegerField(verbose_name='Максимальное кол-во человек')
     region = models.ForeignKey(
         'Regions',
         models.DO_NOTHING,
-        verbose_name='Регион'
+        verbose_name='Регион',
+        related_name='location'
     )
     photo = models.ImageField(
         upload_to='locations/',
@@ -277,7 +300,7 @@ class Sales(models.Model):
         blank=True,
         verbose_name='Изображение'
     )
-    name = models.CharField(max_length=50, verbose_name='Название')
+    name = models.CharField(max_length=255, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
 
     class Meta:
